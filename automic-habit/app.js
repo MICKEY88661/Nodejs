@@ -1,11 +1,28 @@
+require("dotenv").config();
 const express = require('express')
+
+//  routers
+const todoRouter = require('./routes/todoRoute');
+
+// app
 const app = express()
-const port = 3000
+const port = process.env.SERVER_PORT
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+// parse json
+app.use(express.json())
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+app.use('/api/v1/todo', todoRouter);
+
+const start = async () => {
+    try {
+
+        app.listen(port, () =>
+            console.log(`Server is listening on port ${port}...`)
+        );
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+start();
+
